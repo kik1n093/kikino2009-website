@@ -1,0 +1,1551 @@
+/* ==========================================================================
+   1. ESTILOS BASE Y FONDO
+   ========================================================================== */
+body {
+    background-image: url('img/fondos/city.fondo.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: repeat;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 30px 20px;
+    color: #e0d9c1;
+    box-sizing: border-box;
+    zoom: 0.93;
+}
+
+/* ==========================================================================
+   2. LAYOUT PRINCIPAL: sidebar + contenido
+   ========================================================================== */
+
+/* El wrapper que divide la pantalla en dos columnas */
+.layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    grid-template-rows: auto auto 1fr;
+    gap: 20px;
+    max-width: 900px;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+/* Título y nav en la columna izquierda */
+.sidebar-titulo { grid-column: 1; }
+.sidebar-nav    { grid-column: 1; }
+
+/* Contenido ocupa la columna derecha, todas las filas */
+.contenido {
+    grid-column: 2;
+    grid-row: 1 / -1;
+}
+
+/* Footer debajo de todo */
+.footer {
+    grid-column: 1 / -1;
+    background-color: #0d0c0a;
+    border: 2px solid #3e4c5e;
+    padding: 12px 15px;
+    text-align: center;
+    font-size: 11px;
+    color: #5a6e87;
+    letter-spacing: 1px;
+}
+.footer p {
+    margin: 0;
+}
+.footer a {
+    color: #8fa7c7;
+    text-decoration: none;
+}
+.footer a:hover {
+    color: #d1a374;
+}
+
+/* ==========================================================================
+   3. SIDEBAR
+   ========================================================================== */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow: hidden;
+}
+
+/* Título en la sidebar */
+.sidebar-titulo {
+    background-color: #0d0c0a;
+    border: 4px double #b88d61;
+    padding: 15px;
+    box-shadow: 0px 0px 20px rgba(184, 141, 97, 0.3);
+}
+
+.sidebar-titulo h1 {
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #d1a374;
+    margin: 0;
+    font-weight: bold;
+    line-height: 1.4;
+    text-shadow:
+        2px 2px 0px #141310,
+        3px 3px 0px #3e4c5e,
+        4px 4px 6px rgba(0,0,0,0.9);
+}
+
+/* ==========================================================================
+   4. NAVEGACIÓN (botones de pestañas en la sidebar)
+   ========================================================================== */
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background-color: #0d0c0a;
+    border: 2px solid #3e4c5e;
+    padding: 10px;
+}
+
+/* Cada botón de pestaña */
+.tab-btn {
+    background: none;
+    border: none;
+    color: #8fa7c7;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    text-align: left;
+    padding: 7px 10px;
+    cursor: pointer;
+    transition: color 0.4s ease, background-color 0.4s ease, padding-left 0.4s ease;
+    border-left: 2px solid transparent;
+}
+
+/* Hover en los botones */
+.tab-btn:hover {
+    color: #d1a374;
+    padding-left: 14px;
+}
+
+/* Botón activo (la pestaña que está seleccionada) */
+.tab-btn.activo {
+    color: #d1a374;
+    border-left: 2px solid #b88d61;
+    padding-left: 14px;
+}
+
+/* Enlace (página externa, ej: shrine) con el mismo estilo de pestaña */
+.tab-enlace {
+    text-decoration: none;
+    display: block;
+}
+.tab-enlace:hover {
+    color: #d1a374;
+    padding-left: 14px;
+    background-color: rgba(184, 141, 97, 0.08);
+}
+
+/* ==========================================================================
+   5. CAJAS DE LA SIDEBAR (currently, música, links)
+   ========================================================================== */
+.caja-sidebar {
+    background-color: #141310;
+    border: 2px solid #3e4c5e;
+    padding: 15px;
+    transition: border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.caja-sidebar:hover {
+    border-color: #8fa7c7;
+    box-shadow:
+        inset 0 0 8px rgba(143, 167, 199, 0.15),
+        0 0 12px rgba(143, 167, 199, 0.3);
+}
+
+.caja-sidebar h3 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #8fa7c7;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.caja-sidebar p {
+    font-size: 13px;
+    margin: 5px 0;
+}
+
+/* Currently Feeling: valores destacados en dorado */
+.caja-currently span {
+    color: #d1a374;
+    font-weight: bold;
+}
+
+/* Escuchando ahora (Last.fm) */
+.nowplaying-wrap {
+    margin-top: 8px;
+    border: 2px solid #3e4c5e;
+    border-radius: 2px;
+    padding: 10px;
+    background: #0d0c0a;
+    font-size: 12px;
+}
+
+.nowplaying-cargando,
+.nowplaying-vacio {
+    color: #8fa7c7;
+    font-style: italic;
+}
+
+.nowplaying-track {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nowplaying-track img {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border: 2px solid #3e4c5e;
+    flex-shrink: 0;
+}
+
+.nowplaying-info {
+    min-width: 0;
+}
+
+.nowplaying-estado {
+    color: #8fa7c7;
+    font-size: 11px;
+    margin-bottom: 3px;
+}
+
+.nowplaying-estado span {
+    color: #d1a374;
+    font-weight: bold;
+}
+
+.nowplaying-cancion {
+    color: #d1a374;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nowplaying-artista {
+    color: #b9c4d6;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nowplaying-error {
+    color: #c7776b;
+    font-style: italic;
+}
+
+/* Reproductor */
+.retro-player {
+    margin-top: 8px;
+    border: 2px solid #3e4c5e;
+    border-radius: 2px;
+    background: #0d0c0a;
+    padding: 10px;
+    font-family: 'Courier New', Courier, monospace;
+    position: relative;
+    overflow: hidden;
+}
+
+.retro-player #retro-yt {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    top: -9999px;
+    left: -9999px;
+}
+
+.retro-display {
+    background: #050505;
+    border: 1px solid #3e4c5e;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+.retro-track {
+    color: #d1a374;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 1px;
+}
+
+.retro-time {
+    color: #5a6e87;
+    font-size: 10px;
+    margin-top: 4px;
+    letter-spacing: 1px;
+}
+
+.retro-controls {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.retro-btn {
+    background: #0d0c0a;
+    border: 1px solid #3e4c5e;
+    color: #d1a374;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: color 0.4s ease, border-color 0.4s ease, background-color 0.4s ease;
+}
+
+.retro-btn:hover {
+    color: #8fa7c7;
+    border-color: #8fa7c7;
+    background-color: rgba(143, 167, 199, 0.08);
+}
+
+.retro-progress {
+    height: 6px;
+    background: #050505;
+    border: 1px solid #3e4c5e;
+    margin-bottom: 10px;
+}
+
+.retro-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: #d1a374;
+    transition: width 0.4s linear;
+}
+
+.retro-vol {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+    color: #8fa7c7;
+    font-size: 11px;
+}
+
+.retro-vol input[type="range"] {
+    flex: 1;
+    accent-color: #d1a374;
+    background: #0d0c0a;
+    height: 14px;
+}
+
+.retro-eq {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 3px;
+    height: 18px;
+}
+
+.retro-eq span {
+    width: 3px;
+    height: 4px;
+    background: #3e4c5e;
+    transition: height 0.2s ease, background-color 0.2s ease;
+}
+
+.retro-eq.sonando span {
+    background: #d1a374;
+    animation: eq-saltar 0.6s ease-in-out infinite;
+}
+
+.retro-eq.sonando span:nth-child(1) { animation-delay: 0s; }
+.retro-eq.sonando span:nth-child(2) { animation-delay: 0.15s; }
+.retro-eq.sonando span:nth-child(3) { animation-delay: 0.3s; }
+.retro-eq.sonando span:nth-child(4) { animation-delay: 0.1s; }
+.retro-eq.sonando span:nth-child(5) { animation-delay: 0.45s; }
+
+@keyframes eq-saltar {
+    0%, 100% { height: 4px; }
+    50% { height: 18px; }
+}
+
+/* Links / Contactos */
+.caja-contactos ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.caja-contactos li {
+    margin: 6px 0;
+}
+
+.caja-contactos a,
+.caja-contactos a:visited {
+    color: #d1a374;
+    text-decoration: none;
+    font-size: 12px;
+    display: inline-block;
+    transition: transform 0.4s ease, color 0.4s ease;
+}
+
+.caja-contactos a:hover {
+    color: #8fa7c7;
+    transform: translateX(4px);
+}
+
+/* ==========================================================================
+   6. ÁREA DE CONTENIDO (pestañas)
+   ========================================================================== */
+
+/* Cada panel de pestaña está oculto por defecto */
+.tab-panel {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+
+/* Solo el panel activo se muestra */
+.tab-panel.activo {
+    display: block;
+    opacity: 1;
+}
+
+/* Caja genérica de contenido */
+.caja-contenido {
+    background-color: #0d0c0a;
+    border: 2px solid #3e4c5e;
+    padding: 25px;
+    box-shadow: 0px 0px 20px rgba(184, 141, 97, 0.2);
+}
+
+.caja-contenido h2 {
+    color: #d1a374;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px dashed #3e4c5e;
+    padding-bottom: 10px;
+}
+
+.placeholder-texto {
+    color: #5a6e87;
+    font-style: italic;
+    font-size: 13px;
+}
+
+
+
+/* ==========================================================================
+   7. SECCIÓN DE POEMAS (dentro de la pestaña)
+   ========================================================================== */
+.caja-poemas {
+    border-color: #3e4c5e;
+}
+
+.caja-poemas h3 {
+    color: #d1a374;
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 14px;
+}
+
+.contenedor-scroll {
+    max-height: 420px;
+    overflow-y: scroll;
+    padding-right: 12px;
+}
+
+.post-poema {
+    margin-bottom: 20px;
+}
+
+.fecha-post {
+    font-size: 11px;
+    color: #8fa7c7;
+}
+
+.post-poema h4 {
+    color: #d1a374;
+    margin: 5px 0 10px 0;
+    font-size: 14px;
+}
+
+.post-poema p {
+    color: #e2dfd9;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.separador-poema {
+    border: 0;
+    border-top: 1px dashed #3e4c5e;
+    margin: 20px 0;
+}
+
+/* Scroll personalizado */
+.contenedor-scroll::-webkit-scrollbar { width: 6px; }
+.contenedor-scroll::-webkit-scrollbar-track { background: #0d0c0a; border-left: 1px dashed #3e4c5e; }
+.contenedor-scroll::-webkit-scrollbar-thumb { background-color: #3e4c5e; border-radius: 2px; }
+.contenedor-scroll::-webkit-scrollbar-thumb:hover { background-color: #d1a374; }
+.contenedor-scroll { scrollbar-color: #3e4c5e #0d0c0a; }
+
+/* ==========================================================================
+   8. CAPAS FLOTANTES Y ARCOS GÓTICOS
+   ========================================================================== */
+.arco-flotante {
+    position: fixed;
+    top: 0;
+    width: auto;
+    height: 250px;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.7;
+    filter: brightness(0.7) contrast(1.2);
+}
+
+.arco-izq { left: 0; }
+.arco-der { right: 0; }
+
+.sticker-flotante {
+    position: fixed;
+    top: 20%;
+    width: 160px;
+    height: auto;
+    z-index: 5;
+    opacity: 0.75;
+    pointer-events: none;
+}
+
+.izquierda { left: 2%; }
+.derecha   { right: 2%; }
+
+.render-flotante {
+    position: fixed;
+    bottom: 0;
+    height: 260px;
+    width: auto;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.personaje-izq { left: 1%; }
+.personaje-der { right: 2%; }
+
+.marca-agua-gif {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 140px;
+    height: auto;
+    opacity: 0.6;
+    z-index: 13;
+    pointer-events: none;
+}
+
+/* Splash gatefold — pantalla negra de entrada */
+.splash-gate {
+    position: fixed;
+    inset: 0;
+    background: #0d0c0a;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: opacity 0.8s ease;
+}
+.splash-gate.oculto {
+    opacity: 0;
+    pointer-events: none;
+}
+.splash-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+.splash-pre,
+.splash-post {
+    color: #5a6e87;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin: 0;
+}
+.splash-poema {
+    color: #e0d9c1;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    letter-spacing: 1px;
+    font-style: italic;
+    max-width: 520px;
+    margin: 0;
+    padding: 0 10px;
+}
+.splash-img {
+    width: 160px;
+    height: auto;
+    opacity: 0.55;
+    filter: brightness(0.7) contrast(1.15) sepia(0.2);
+}
+.splash-acciones {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 8px;
+}
+.splash-enter {
+    background: none;
+    border: 1px solid #b88d61;
+    color: #d1a374;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    letter-spacing: 4px;
+    padding: 8px 22px;
+    cursor: pointer;
+    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+.splash-enter:hover {
+    background: #d1a374;
+    color: #0d0c0a;
+    border-color: #d1a374;
+}
+.splash-lang {
+    background: none;
+    border: 1px solid #3e4c5e;
+    color: #8fa7c7;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: border-color 0.4s ease, color 0.4s ease;
+}
+.splash-lang:hover {
+    border-color: #d1a374;
+    color: #d1a374;
+}
+
+
+
+
+/* ==========================================================================
+   EASTER EGG: Pickle Rick
+   ========================================================================== */
+.easter-egg-oculto {
+    position: fixed;
+    top: 100px;      /* antes era "bottom: 20px" */
+    left: 45px;      /* ajustá este valor si se superpone con el arco */
+    z-index: 100;
+    display: none;
+    text-align: center;
+    animation: aparecer 0.6s ease-out;
+}
+
+.easter-egg-oculto.visible {
+    display: block;
+}
+
+.easter-egg-oculto img {
+    width: 80px;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.4s ease;
+}
+
+.easter-egg-oculto img:hover {
+    transform: scale(1.05);
+}
+
+.burbuja-dialogo {
+    background-color: #e0d9c1;
+    color: #0d0c0a;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    margin-bottom: 6px;
+    position: fixed;
+    display: inline-block;
+}
+
+/* El triangulito de la burbuja, apuntando hacia abajo */
+.burbuja-dialogo::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px 6px 0 6px;
+    border-style: solid;
+    border-color: #e0d9c1 transparent transparent transparent;
+}
+
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   10. RELOJ DIGITAL (sidebar)
+   ========================================================================== */
+.caja-reloj {
+    text-align: center;
+}
+.reloj-display {
+    font-family: 'Courier New', Courier, monospace;
+}
+.reloj-hora {
+    font-size: 28px;
+    font-weight: bold;
+    color: #d1a374;
+    text-shadow: 0 0 10px rgba(184, 141, 97, 0.5);
+    letter-spacing: 4px;
+    line-height: 1.4;
+}
+.reloj-fecha {
+    font-size: 11px;
+    color: #8fa7c7;
+    margin-top: 4px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+/* ==========================================================================
+   11. GALERÍA - FILTROS Y LIGHTBOX
+   ========================================================================== */
+.filtros-galeria {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 15px;
+    border-bottom: 1px dashed #3e4c5e;
+    padding-bottom: 12px;
+}
+.filtro-btn {
+    background: #0d0c0a;
+    border: 1px solid #3e4c5e;
+    border-radius: 2px;
+    color: #8fa7c7;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    padding: 5px 14px;
+    transition: color 0.4s ease, border-color 0.4s ease, background-color 0.4s ease, box-shadow 0.4s ease;
+}
+.filtro-btn:hover {
+    color: #d1a374;
+    border-color: #8fa7c7;
+}
+.filtro-btn.activo {
+    background: #141310;
+    border-color: #b88d61;
+    color: #d1a374;
+    font-weight: bold;
+    box-shadow: 0 0 8px rgba(184, 141, 97, 0.2);
+}
+.galeria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+    margin-top: 15px;
+}
+.galeria-grid .item-galeria {
+    overflow: hidden;
+}
+.galeria-grid .item-galeria img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border: 2px solid #3e4c5e;
+    filter: brightness(0.85);
+    cursor: pointer;
+    transition: filter 0.5s ease, border-color 0.5s ease, transform 0.5s ease;
+}
+.galeria-grid .item-galeria img:hover {
+    filter: brightness(1.05);
+    border-color: #d1a374;
+    transform: scale(1.02);
+}
+.item-oculto {
+    display: none !important;
+}
+
+/* Lightbox */
+.lightbox-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.92);
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.lightbox-overlay.visible {
+    display: flex;
+}
+.lightbox-overlay img {
+    max-width: 90%;
+    max-height: 90%;
+    border: 3px solid #3e4c5e;
+    box-shadow: 0 0 40px rgba(184, 141, 97, 0.3);
+    animation: aparecer 0.3s ease-out;
+}
+.lightbox-cerrar {
+    position: fixed;
+    top: 20px;
+    right: 30px;
+    color: #d1a374;
+    font-size: 30px;
+    font-family: 'Courier New', Courier, monospace;
+    cursor: pointer;
+    z-index: 1000;
+    transition: color 0.4s ease;
+}
+.lightbox-cerrar:hover {
+    color: #fff;
+}
+
+/* ==========================================================================
+   12. GUESTBOOK (iframe Atabook)
+   ========================================================================== */
+.guestbook-frame {
+    margin-top: 15px;
+}
+.guestbook-frame iframe {
+    width: 100%;
+    min-height: 500px;
+    border: 2px solid #3e4c5e;
+    background: #0d0c0a;
+}
+
+/* ==========================================================================
+    9. CAMBIO DE IDIOMA
+   ========================================================================== */
+.caja-lang {
+    text-align: center;
+    padding: 10px 15px;
+}
+.lang-btn {
+    background: none;
+    border: 2px solid #3e4c5e;
+    color: #d1a374;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 6px 20px;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    letter-spacing: 2px;
+}
+.lang-btn:hover {
+    border-color: #d1a374;
+    background-color: rgba(184, 141, 97, 0.08);
+    box-shadow: 0 0 10px rgba(184, 141, 97, 0.2);
+}
+.lang-label {
+    display: block;
+    font-size: 10px;
+    color: #5a6e87;
+    margin-top: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+/* ==========================================================================
+   13. FAVORITOS - JUEGOS Y MÚSICA
+   ========================================================================== */
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+    margin-top: 15px;
+}
+.game-card {
+    background-color: #141310;
+    border: 2px solid #3e4c5e;
+    padding: 0;
+    transition: border-color 0.5s ease, box-shadow 0.5s ease;
+}
+.game-card:hover {
+    border-color: #d1a374;
+    box-shadow: 0 0 10px rgba(184, 141, 97, 0.2);
+}
+.game-card img {
+    display: block;
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    border-bottom: 2px solid #3e4c5e;
+}
+.game-card-body {
+    padding: 15px;
+}
+.game-card h3 {
+    color: #d1a374;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 8px 0;
+}
+.game-card p {
+    color: #e0d9c1;
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 0 0 10px 0;
+}
+.game-ratings {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.game-ratings span {
+    font-size: 11px;
+    color: #8fa7c7;
+    letter-spacing: 0.5px;
+}
+
+.music-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 15px;
+}
+.artist-card {
+    background-color: #141310;
+    border: 2px solid #3e4c5e;
+    padding: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    transition: border-color 0.5s ease, box-shadow 0.5s ease;
+}
+.artist-card:hover {
+    border-color: #d1a374;
+    box-shadow: 0 0 10px rgba(184, 141, 97, 0.2);
+}
+.artist-card-img {
+    width: 90px;
+    height: 90px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border: 1px solid #3e4c5e;
+}
+.artist-card-content {
+    flex: 1;
+    min-width: 0;
+}
+.artist-card h3 {
+    color: #d1a374;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 6px 0;
+}
+.artist-opinion {
+    color: #e0d9c1;
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 0 0 10px 0;
+    font-style: italic;
+}
+.album-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.album-list li {
+    font-size: 12px;
+    color: #8fa7c7;
+    padding: 3px 0;
+    border-top: 1px dashed #3e4c5e;
+}
+.album-list li:first-child {
+    border-top: none;
+}
+.album-list li strong {
+    color: #d1a374;
+}
+
+/* ==========================================================================
+   13.5 RECOMIENDO
+   ========================================================================== */
+.recom-cat {
+    color: #8fa7c7;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px dashed #3e4c5e;
+    padding-bottom: 5px;
+    margin: 28px 0 12px 0;
+}
+.recom-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+}
+.recom-card {
+    background-color: #141310;
+    border: 2px solid #3e4c5e;
+    padding: 0;
+    position: relative;
+    transition: border-color 0.5s ease, box-shadow 0.5s ease;
+}
+.recom-card:hover {
+    border-color: #d1a374;
+    box-shadow: 0 0 10px rgba(184, 141, 97, 0.2);
+}
+.recom-card img {
+    display: block;
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    border-bottom: 2px solid #3e4c5e;
+}
+.recom-card-body {
+    padding: 15px;
+    position: relative;
+}
+.recom-card h4 {
+    color: #d1a374;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 8px 0;
+    padding-right: 24px;
+}
+.recom-card p {
+    color: #e0d9c1;
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 0 0 10px 0;
+}
+.recom-tag {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 16px;
+}
+.recom-rate {
+    font-size: 12px;
+    color: #d1a374;
+    letter-spacing: 2px;
+}
+
+/* ==========================================================================
+   15. EMBED
+   ========================================================================== */
+
+
+.embed-preview {
+    display: block;
+    margin: 0 auto 10px auto;
+    width: 88px;
+    height: 31px;
+    image-rendering: pixelated;
+    border: 1px solid #3e4c5e;
+}
+.caja-embed {
+    overflow: hidden;
+}
+.embed-code-box {
+    background-color: #0d0c0a;
+    border: 1px dashed #3e4c5e;
+    padding: 8px;
+    margin-bottom: 8px;
+    overflow-x: auto;
+}
+.embed-code-box code {
+    font-size: 10px;
+    color: #8fa7c7;
+    word-break: break-all;
+}
+.btn-copiar {
+    background: none;
+    border: 1px solid #3e4c5e;
+    color: #8fa7c7;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11px;
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: color 0.4s ease, border-color 0.4s ease;
+}
+.btn-copiar:hover {
+    color: #d1a374;
+    border-color: #d1a374;
+}
+
+/* Contador de visitas retro */
+.caja-visitas {
+    text-align: center;
+}
+.contador-iframe {
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #3e4c5e;
+    background-color: #0d0c0a;
+}
+
+/* Botones de amigos */
+.caja-botones {
+    text-align: center;
+}
+.botones-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}
+.botones-lista a {
+    display: block;
+    max-width: 100%;
+}
+.botones-lista img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #3e4c5e;
+    transition: border-color 0.4s ease, opacity 0.4s ease;
+}
+/* Status widget.st — evita que el "hace x tiempo" se pegue al borde */
+.caja-status ws-widget {
+    display: block;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+.caja-status ws-widget small,
+.caja-status ws-widget time,
+.caja-status ws-widget [class*="time"],
+.caja-status ws-widget [class*="ago"] {
+    font-size: 10px !important;
+    line-height: 1.3 !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+}
+
+.botones-lista img:hover {
+    border-color: #d1a374;
+    opacity: 0.85;
+}
+
+/* Llaveros — muro de blinkies 88x31 */
+.caja-llaveros .blinkies-muro {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+}
+.caja-llaveros .blinkies-muro img {
+    width: 88px;
+    height: 31px;
+    image-rendering: pixelated;
+    border: 1px solid #3e4c5e;
+    transition: border-color 0.4s ease, transform 0.4s ease, filter 0.4s ease;
+}
+.caja-llaveros .blinkies-muro a:hover img,
+.caja-llaveros .blinkies-muro img:hover {
+    border-color: #d1a374;
+    transform: translateY(-1px);
+    filter: brightness(1.15);
+}
+
+/* ==========================================================================
+   14. MEJORAS VISUALES - HOVER POEMAS / TRANSICIONES / SCROLL
+   ========================================================================== */
+.post-poema {
+    transition: border-color 0.5s ease, background-color 0.5s ease;
+    padding: 10px;
+    border-left: 3px solid transparent;
+    border-radius: 2px;
+}
+.post-poema:hover {
+    border-left-color: #d1a374;
+    background-color: rgba(184, 141, 97, 0.05);
+}
+
+.galeria-grid .item-galeria {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Botón volver arriba */
+.btn-volver-arriba {
+    display: block;
+    width: 100%;
+    margin-top: 15px;
+    padding: 8px;
+    background: none;
+    border: 1px dashed #3e4c5e;
+    color: #8fa7c7;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: color 0.4s ease, border-color 0.4s ease;
+}
+.btn-volver-arriba:hover {
+    color: #d1a374;
+    border-color: #d1a374;
+}
+
+/* ==========================================================================
+   10. RESPONSIVE (celulares)
+   ========================================================================== */
+@media (max-width: 700px) {
+    body {
+        padding: 10px;
+        zoom: 1;
+    }
+
+    /* Layout en una columna, todo en orden */
+    .layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+
+    /* Orden correcto: título → nav → contenido → sidebar */
+    .sidebar-titulo { grid-column: 1; order: 1; }
+    .sidebar-nav    { grid-column: 1; order: 2; grid-row: auto; }
+    .contenido      { grid-column: 1; order: 3; grid-row: auto; min-height: auto; }
+    .sidebar        { grid-column: 1; order: 4; }
+    .footer         { grid-column: 1; order: 5; }
+
+    /* Escondemos las imágenes flotantes */
+    .arco-flotante,
+    .sticker-flotante,
+    .render-flotante,
+    .marca-agua-gif {
+        display: none;
+    }
+
+    /* ── TÍTULO ── */
+    .sidebar-titulo {
+        border-width: 2px;
+        padding: 12px;
+    }
+    .sidebar-titulo h1 {
+        font-size: 15px;
+        letter-spacing: 2px;
+    }
+
+    /* ── NAV HORIZONTAL SCROLLABLE ── */
+    .sidebar-nav {
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        gap: 2px;
+        padding: 8px 5px;
+        border: none;
+        background: none;
+    }
+    .sidebar-nav::-webkit-scrollbar {
+        display: none;
+    }
+    .sidebar-nav .tab-btn {
+        white-space: nowrap;
+        flex-shrink: 0;
+        border-left: none;
+        border-bottom: 2px solid transparent;
+        padding: 6px 10px;
+        font-size: 12px;
+        text-align: center;
+    }
+    .sidebar-nav .tab-btn:hover {
+        padding-left: 10px;
+    }
+    .sidebar-nav .tab-btn.activo {
+        border-left: none;
+        border-bottom: 2px solid #b88d61;
+        padding-left: 10px;
+    }
+
+    /* ── ACORDEÓN: sidebar colapsable ── */
+    .caja-acordeon {
+        background: none;
+        border: none;
+        padding: 0;
+    }
+    .caja-acordeon:hover {
+        border-color: transparent;
+        box-shadow: none;
+    }
+    .caja-acordeon .acordeon-body {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease;
+        background-color: #141310;
+        border: 2px solid #3e4c5e;
+        padding: 0 15px;
+        margin-top: 4px;
+    }
+    .caja-acordeon.acordeon-abierta .acordeon-body {
+        max-height: 600px;
+        padding: 15px;
+    }
+    .caja-acordeon h3 {
+        cursor: pointer;
+        user-select: none;
+        margin: 0;
+        padding: 10px 0;
+        border-bottom: 1px dashed #3e4c5e;
+        font-size: 13px;
+        color: #8fa7c7;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+    .caja-acordeon h3::after {
+        content: ' ▾';
+        font-size: 11px;
+        color: #5a6e87;
+    }
+    .caja-acordeon.acordeon-abierta h3::after {
+        content: ' ▴';
+    }
+    .caja-acordeon.acordeon-abierta h3 {
+        border-bottom-color: #d1a374;
+        color: #d1a374;
+    }
+
+    /* La grilla "sobre mí" pasa de 2 columnas a 1 */
+    .tab-panel div[style*="grid-template-columns: 1fr 1fr"] {
+        display: block !important;
+    }
+
+    /* Contenido más compacto */
+    .caja-contenido {
+        padding: 15px;
+    }
+
+    /* Fix: paneles inactivos no deben ser visibles en móvil */
+    .tab-panel:not(.activo) {
+        display: none !important;
+        visibility: hidden;
+        height: 0;
+        overflow: hidden;
+    }
+
+    /* Scroll de poemas más bajo */
+    .contenedor-scroll {
+        max-height: 300px;
+    }
+
+    /* Easter egg más chico */
+    .easter-egg-oculto img {
+        width: 60px;
+    }
+
+    /* Reproductor retro más chico */
+    .retro-player {
+        padding: 8px;
+    }
+    .retro-btn {
+        padding: 5px 10px;
+    }
+
+    /* Favoritos: una columna */
+    .games-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================================
+   SHRINE — ESTILOS CENTRALIZADOS (para ídolos actuales y futuros)
+   ========================================================================== */
+.shrine-layout {
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+}
+
+/* Volver al rincón */
+.shrine-volver {
+    display: inline-block;
+    margin-bottom: 18px;
+    background: #0d0c0a;
+    border: 2px solid #3e4c5e;
+    color: #8fa7c7;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    padding: 6px 12px;
+    text-decoration: none;
+    transition: color 0.4s ease, border-color 0.4s ease, background-color 0.4s ease;
+}
+.shrine-volver:hover {
+    color: #d1a374;
+    border-color: #d1a374;
+    background: rgba(184, 141, 97, 0.08);
+}
+
+/* Cabecera del shrine */
+.shrine-header {
+    background: #0d0c0a;
+    border: 4px double #b88d61;
+    padding: 25px 20px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(184, 141, 97, 0.3);
+    margin-bottom: 20px;
+}
+.shrine-header h1 {
+    color: #d1a374;
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin: 0 0 6px 0;
+    text-shadow:
+        2px 2px 0px #141310,
+        3px 3px 0px #3e4c5e,
+        4px 4px 6px rgba(0,0,0,0.9);
+}
+.shrine-header p {
+    color: #8fa7c7;
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+/* Caja genérica de sección */
+.shrine-caja {
+    background: #0d0c0a;
+    border: 2px solid #3e4c5e;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.shrine-caja h2 {
+    color: #d1a374;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin: 0 0 14px 0;
+    border-bottom: 1px dashed #3e4c5e;
+    padding-bottom: 8px;
+}
+
+/* Caja que indica dónde va una imagen */
+.shrine-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000000;
+    border: 2px solid #3e4c5e;
+    color: #5a6e87;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+/* Bloque de texto */
+.shrine-texto {
+    color: #e0d9c1;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* Hero: imagen grande de portada */
+.shrine-hero {
+    width: 100%;
+    height: 260px;
+    overflow: hidden;
+}
+
+/* Imagen dentro de recuadro */
+.shrine-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+/* Bloque foto + texto */
+.shrine-bloque .shrine-img img {
+    object-fit: contain;
+}
+
+.shrine-bloque {
+    overflow: hidden;
+    margin-bottom: 14px;
+}
+.shrine-bloque .shrine-img {
+    float: left;
+    width: 220px;
+    height: 220px;
+    margin: 0 18px 10px 0;
+}
+.shrine-bloque-tall .shrine-img {
+    height: 360px;
+}
+.shrine-bloque .shrine-texto {
+    overflow-wrap: break-word;
+}
+
+/* Cuadrícula de discografía / covers */
+.shrine-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 14px;
+}
+.shrine-grid-item {
+    text-align: center;
+}
+.shrine-grid-item .shrine-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+}
+.shrine-grid-item .shrine-caption {
+    color: #8fa7c7;
+    font-size: 11px;
+    letter-spacing: 1px;
+    margin-top: 6px;
+}
+
+/* Enlaces / créditos del final */
+.shrine-links {
+    text-align: center;
+    color: #8fa7c7;
+    font-size: 12px;
+}
+.shrine-links a {
+    color: #d1a374;
+    text-decoration: none;
+}
+.shrine-links a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+    .shrine-bloque .shrine-img {
+        float: none;
+        width: 100%;
+        height: 220px;
+    }
+    .shrine-bloque-tall .shrine-img {
+        height: 360px;
+    }
+    .shrine-hero {
+        height: 160px;
+    }
+}
