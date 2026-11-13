@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>アド</title>
+    <link rel="icon" type="image/gif" href="img/ui/favicon.gif">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        /* ================================================================
+           PÁGINA SECRETA — estética de ella:
+           punk / grunge viejo / j-rock / Nana / Ado / Phantom Siita
+           Paleta: naranja + rojo + amarillo, con indigo y sakura
+           (la rosa-azul del folklore japonés) como detalles.
+           ================================================================ */
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0c0906;
+            color: #e8ddd0;
+            font-family: 'Courier New', Courier, monospace;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .layout {
+            max-width: 760px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 30px 18px 60px 18px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Telaraña en la esquina de la página */
+        .telarana {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 150px;
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Franja ajedrezada punk (naranja/negro) */
+        .ajedrez {
+            height: 14px;
+            background:
+                repeating-conic-gradient(#ff8c3a 0% 25%, #0c0906 0% 50%);
+            background-size: 14px 14px;
+            border-top: 2px solid #3a2a1a;
+            border-bottom: 2px solid #3a2a1a;
+            opacity: 0.85;
+        }
+
+        /* ===== CABECERA ===== */
+        header {
+            text-align: center;
+            padding: 40px 10px 30px 10px;
+        }
+        header .katakana {
+            color: #f0919d;
+            font-size: 14px;
+            letter-spacing: 8px;
+            margin: 0 0 8px 0;
+        }
+        header h1 {
+            font-family: Impact, 'Arial Black', sans-serif;
+            font-size: 64px;
+            letter-spacing: 10px;
+            margin: 0;
+            color: #ff8c3a;
+            text-shadow:
+                3px 3px 0 #e0324b,
+                6px 6px 0 #3a2a1a;
+            text-transform: uppercase;
+        }
+        header .sub {
+            color: #8a7a68;
+            font-size: 12px;
+            letter-spacing: 3px;
+            margin-top: 12px;
+        }
+        header .estrella {
+            color: #ffd23f;
+            font-size: 16px;
+            letter-spacing: 6px;
+            margin: 10px 0 0 0;
+        }
+
+        /* ===== CAJAS ===== */
+        .caja {
+            background: #14100b;
+            border: 2px solid #3a2a1a;
+            padding: 22px;
+            margin-bottom: 22px;
+            position: relative;
+        }
+        .caja::before {
+            content: "✦";
+            position: absolute;
+            top: -10px;
+            right: 12px;
+            color: #ffd23f;
+            background: #0c0906;
+            padding: 0 6px;
+            font-size: 14px;
+        }
+        .caja h2 {
+            font-family: Impact, 'Arial Black', sans-serif;
+            font-size: 20px;
+            letter-spacing: 4px;
+            color: #ff8c3a;
+            margin: 0 0 6px 0;
+            text-transform: uppercase;
+        }
+        .caja .jp {
+            color: #f0919d;
+            font-size: 11px;
+            letter-spacing: 2px;
+            margin: 0 0 16px 0;
+        }
+        .caja p {
+            font-size: 13px;
+            line-height: 1.8;
+            color: #e8ddd0;
+            margin: 0 0 12px 0;
+        }
+        .caja p:last-child { margin-bottom: 0; }
+
+        /* ===== PLAYLIST ===== */
+        .track {
+            display: flex;
+            gap: 12px;
+            align-items: baseline;
+            padding: 10px 0;
+            border-bottom: 1px dashed #3a2a1a;
+        }
+        .track:last-child { border-bottom: none; }
+        .track .num {
+            color: #e0324b;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+        .track .nombre {
+            color: #ffd23f;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+        .track .porque {
+            color: #c9bda9;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* ===== ENTRADAS (chistes internos / fandoms / recuerdos) ===== */
+        .entrada {
+            padding: 12px 14px;
+            border-left: 3px solid #ff8c3a;
+            background: rgba(255, 140, 58, 0.05);
+            margin-bottom: 12px;
+        }
+        .entrada:last-child { margin-bottom: 0; }
+        .entrada .titulo {
+            color: #f2f2f2;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+        .entrada .texto {
+            color: #8a7a68;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* Detalle indigo/sakura (folklore japonés) para una entrada especial */
+        .entrada.especial {
+            border-left-color: #4a6fa5;
+            background: rgba(74, 111, 165, 0.07);
+        }
+        .entrada.especial .titulo { color: #f0919d; }
+
+        /* ===== STICKERS FLOTANTES (caen despacio en bucle) ===== */
+        .flotante {
+            position: fixed;
+            top: -90px;
+            z-index: 1;
+            pointer-events: none;
+            animation: bajar linear infinite;
+        }
+        @keyframes bajar {
+            from { transform: translateY(-90px) rotate(0deg); }
+            to   { transform: translateY(115vh) rotate(360deg); }
+        }
+        .flotante.glyph {
+            width: auto;
+            font-size: 16px;
+        }
+
+        /* Corazones-pentagrama */
+        .f1 { left: 4%;  width: 30px; animation-duration: 26s; animation-delay: -5s;  opacity: 0.45; }
+        .f2 { right: 7%; width: 24px; animation-duration: 34s; animation-delay: -18s; opacity: 0.4; }
+        .f3 { left: 13%; width: 18px; animation-duration: 40s; animation-delay: -28s; opacity: 0.3; }
+
+        /* Glifos: estrella, nota, calavera */
+        .g1 { left: 8%;   color: #ffd23f; animation-duration: 24s; animation-delay: -9s;  opacity: 0.5; }
+        .g2 { right: 12%; color: #f0919d; animation-duration: 29s; animation-delay: -3s;  opacity: 0.45; font-size: 18px; }
+        .g3 { right: 5%;  color: #ff8c3a; animation-duration: 21s; animation-delay: -14s; opacity: 0.5; font-size: 14px; }
+        .g4 { left: 17%;  color: #e0324b; animation-duration: 36s; animation-delay: -22s; opacity: 0.35; font-size: 14px; }
+        .g5 { right: 16%; color: #4a6fa5; animation-duration: 32s; animation-delay: -7s;  opacity: 0.4; font-size: 12px; }
+
+        /* ===== GRIM REAPER flotante ===== */
+        .reaper {
+            position: fixed;
+            bottom: 18px;
+            right: 18px;
+            width: 90px;
+            opacity: 0.75;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* ===== VOLVER ===== */
+        .volver {
+            display: inline-block;
+            margin-top: 6px;
+            background: #0c0906;
+            border: 2px solid #3a2a1a;
+            color: #8a7a68;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            letter-spacing: 2px;
+            padding: 6px 12px;
+            text-decoration: none;
+            transition: color 0.4s ease, border-color 0.4s ease;
+        }
+        .volver:hover {
+            color: #ff8c3a;
+            border-color: #ff8c3a;
+        }
+
+        @media (max-width: 600px) {
+            .layout { padding: 20px 14px 50px 14px; }
+
+            header { padding: 26px 6px 22px 6px; }
+            header h1 { font-size: 42px; letter-spacing: 6px; }
+            header .katakana { font-size: 11px; letter-spacing: 5px; }
+
+            .caja { padding: 16px; margin-bottom: 16px; }
+            .caja h2 { font-size: 17px; letter-spacing: 3px; }
+            .caja p { font-size: 13.5px; }
+
+            .track { flex-wrap: wrap; gap: 6px 10px; padding: 12px 0; }
+            .track .nombre { flex-basis: 100%; }
+            .track .porque { flex-basis: 100%; }
+
+            .entrada { padding: 11px 12px; }
+
+            /* En celular quedan menos stickers y más chicos */
+            .telarana { width: 96px; opacity: 0.35; }
+            .reaper { width: 58px; opacity: 0.45; bottom: 12px; right: 12px; }
+            .f2, .f3, .g4, .g5 { display: none; }
+            .f1 { width: 22px; left: 3%; }
+            .g1 { font-size: 13px; left: 6%; }
+            .g2 { font-size: 14px; right: 6%; }
+            .g3 { font-size: 12px; right: 10%; }
+
+            .volver {
+                display: block;
+                text-align: center;
+                padding: 12px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <img src="img/archivos/pinsnap-238198267797113319.gif" class="telarana" alt="">
+    <img src="img/archivos/pinsnap-253468285260103082.gif" class="reaper" alt="">
+
+    <!-- Stickers que caen despacio (corazón-pentagrama + glifos) -->
+    <img src="img/stickers/heartgram.png" class="flotante f1" alt="">
+    <img src="img/stickers/heartgram.png" class="flotante f2" alt="">
+    <img src="img/stickers/heartgram.png" class="flotante f3" alt="">
+    <span class="flotante glyph g1">✦</span>
+    <span class="flotante glyph g2">♪</span>
+    <span class="flotante glyph g3">✦</span>
+    <span class="flotante glyph g4">☠</span>
+    <span class="flotante glyph g5">✧</span>
+
+    <div class="ajedrez"></div>
+
+    <div class="layout">
+
+        <!-- ===== CABECERA ===== -->
+        <header>
+            <p class="katakana">アド ・ アド ・ アド</p>
+            <h1>Ado</h1>
+            <p class="sub">[ archivo personal ・ acceso restringido ]</p>
+            <p class="estrella">✦ ✦ ✦</p>
+        </header>
+
+        <!-- ===== INTRO ===== -->
+        <section class="caja">
+            <h2>// Intro</h2>
+            <p class="jp">はじめに</p>
+            <p>[ TEXTO: intro corta y relajada, dos o tres líneas. ]</p>
+        </section>
+
+        <!-- ===== PLAYLIST ===== -->
+        <section class="caja">
+            <h2>// Playlist</h2>
+            <p class="jp">プレイリスト</p>
+            <div class="track">
+                <span class="num">01</span>
+                <span class="nombre">丸の内サディスティック — Sheena Ringo</span>
+                <span class="porque">[ por qué va esta ]</span>
+            </div>
+            <div class="track">
+                <span class="num">02</span>
+                <span class="nombre">幸福論 (Kofukuron) — Sheena Ringo</span>
+                <span class="porque">[ por qué va esta ]</span>
+            </div>
+            <div class="track">
+                <span class="num">03</span>
+                <span class="nombre">本能 (Honnou) — Sheena Ringo</span>
+                <span class="porque">[ por qué va esta ]</span>
+            </div>
+            <div class="track">
+                <span class="num">04</span>
+                <span class="nombre">Show — Ado</span>
+                <span class="porque">[ por qué va esta ]</span>
+            </div>
+            <div class="track">
+                <span class="num">05</span>
+                <span class="nombre">オトナのルール — Phantom Siita</span>
+                <span class="porque">[ el grupo producido por Ado, obvio que va ]</span>
+            </div>
+            <div class="track">
+                <span class="num">06</span>
+                <span class="nombre">La llave de la puerta secreta — Rata Blanca</span>
+                <span class="porque">[ por qué va esta ]</span>
+            </div>
+            <div class="track">
+                <span class="num">07</span>
+                <span class="nombre">[ la canción de ustedes ]</span>
+                <span class="porque">[ por qué ]</span>
+            </div>
+        </section>
+
+        <!-- ===== FANDOM CLUB ===== -->
+        <section class="caja">
+            <h2>// Fandom club</h2>
+            <p class="jp">同好会</p>
+            <div class="entrada">
+                <div class="titulo">NANA</div>
+                <div class="texto">[ algo sobre Nana — punk, corazones rotos, la reina ]</div>
+            </div>
+            <div class="entrada">
+                <div class="titulo">Hawks (Boku no Hero)</div>
+                <div class="texto">[ algo sobre Hawks — el número 2, las alas rojas ]</div>
+            </div>
+            <div class="entrada">
+                <div class="titulo">Skullgirls</div>
+                <div class="texto">[ algo sobre Skullgirls ]</div>
+            </div>
+        </section>
+
+        <!-- ===== ARCHIVO: CHISTES INTERNOS ===== -->
+        <section class="caja">
+            <h2>// Archivo</h2>
+            <p class="jp">ネタ帳</p>
+            <div class="entrada">
+                <div class="titulo">[ nombre del chiste / referencia ]</div>
+                <div class="texto">[ explicación corta o nada, si ella ya lo entiende ]</div>
+            </div>
+            <div class="entrada">
+                <div class="titulo">[ nombre del chiste / referencia ]</div>
+                <div class="texto">[ explicación corta ]</div>
+            </div>
+            <div class="entrada">
+                <div class="titulo">[ nombre del chiste / referencia ]</div>
+                <div class="texto">[ explicación corta ]</div>
+            </div>
+        </section>
+
+        <!-- ===== ME SUENA A VOS ===== -->
+        <section class="caja">
+            <h2>// Me suena a vos</h2>
+            <p class="jp">思い出す</p>
+            <div class="entrada">
+                <div class="titulo">[ cosa ]</div>
+                <div class="texto">[ por qué ]</div>
+            </div>
+            <div class="entrada">
+                <div class="titulo">[ cosa ]</div>
+                <div class="texto">[ por qué ]</div>
+            </div>
+            <div class="entrada especial">
+                <div class="titulo">[ algo importante — esta entra en azul/sakura ]</div>
+                <div class="texto">[ por qué ]</div>
+            </div>
+        </section>
+
+        <!-- ===== SU COLOR ===== -->
+        <section class="caja">
+            <h2>// Su color</h2>
+            <p class="jp">オレンジ</p>
+            <p>[ TEXTO: una o dos líneas sobre sus colores ]</p>
+        </section>
+
+        <!-- ===== CIERRE ===== -->
+        <section class="caja">
+            <p>[ TEXTO: cierre corto. Ej: "Bueno, eso. Que estés bien. — Kikino" ]</p>
+        </section>
+
+        <a class="volver" href="index.html">← [ volver ]</a>
+
+    </div>
+
+    <div class="ajedrez"></div>
+
+</body>
+
+</html>

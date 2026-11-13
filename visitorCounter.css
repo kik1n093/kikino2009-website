@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Estilos para el widget de contador de visitas (404City V5)
+   Este archivo se carga DENTRO del iframe del contador.
+   Referencia: https://404city.neocities.org/widgets/visitor-counter
+   ========================================================================== */
+
+:where(#visitorCounter) {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #0d0c0a;
+    border: 1px solid #3e4c5e;
+    color: #e0d9c1;
+}
+
+/* Texto "visitantes:" arriba */
+:where(#visitorCounter)::before {
+    content: "visitantes:";
+    color: #5a6e87;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Caja que contiene los dígitos */
+:where(#visitorCounterDisplay) {
+    background-color: #0d0c0a;
+    border: 1px dashed #3e4c5e;
+    gap: 2px;
+    padding: 4px;
+    width: 100%;
+}
+
+/* Cada dígito individual (estilo odómetro) */
+:where(.digit) {
+    background-color: #141310;
+    border: 1px solid #3e4c5e;
+    font-size: 20px;
+    color: #d1a374;
+    font-weight: bold;
+    text-shadow: 0 0 6px rgba(184, 141, 97, 0.4);
+    flex: 1;
+    min-width: 0;
+}
